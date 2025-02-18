@@ -1,0 +1,25 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: pip install fastapi uvicorn numpy scikit-learn pydantic
+
+      - name: Run API
+        run: uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
